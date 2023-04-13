@@ -1,2 +1,2 @@
-# wpscience
+# Ultimate-WP-React-Theme
  
