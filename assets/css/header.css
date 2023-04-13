@@ -357,3 +357,6 @@ ul.wp-block-archives-list.wp-block-archives li a:before,
 .widget_categories ul li .children li{
     margin-bottom: 0px;
 }
+.widget_search  .widget{
+    padding: 30px 0px;
+}
