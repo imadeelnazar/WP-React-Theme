@@ -6,7 +6,7 @@
 				$search_val = __("Type keywords..." , "umeed");
 			}
 		?>sss
-	<input type="text" name="s" id="s" placeholder="Type Keywords" autocomplete="off" data-default="<?php echo esc_attr($search_val); ?>" />
+	<input type="text" name="search" id="s" placeholder="Type Keywords" autocomplete="off" data-default="<?php echo esc_attr($search_val); ?>" />
 	<label><input type="submit" value="Type keywords" placeholder="Type keywords"></label>
   </form>
 </div>

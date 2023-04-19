@@ -49,15 +49,12 @@ const ArchiveDate = () => {
     }
     // When the page number changes call the api for posts.
     if (isNaN(month)) {
-
         const [content, setContent] = useState({});
-
         async function fetchContent(slug){
             if (typeof wpScienceTheme !== 'undefined' && wpScienceTheme.apiUrl) {
                 const pages = await fetch(wpScienceTheme.apiUrl + `/wp/v2/pages/?per_page=50`);
                 const posts = await fetch(wpScienceTheme.apiUrl + `/wp/v2/posts/?per_page=50`);
                 const categories = await fetch(wpScienceTheme.apiUrl + `/wp/v2/categories?slug=${slug}`);
-
 
                 if(slug != undefined){
                     if (pages.ok) {
@@ -113,10 +110,8 @@ const ArchiveDate = () => {
         if(params.day != undefined){
             useEffect(()=>{
                 fetchContent(params.day);
-console.log(categoryBtn,'ddd')
                 if(categoryBtn == 'category'){
                     fetchCategory(params.day)
-
                 }
             },[params.day])
         }else{
@@ -125,38 +120,34 @@ console.log(categoryBtn,'ddd')
             },[params.month])
         }
 
-return (
-     <div className='wp-main-react-wrapper'>
-
-            {content && content.title && (
-                <div className='default-content'>
-                    <div className='default-sub-header'>
+        return (
+        <div className='wp-main-react-wrapper'>
+                {content && content.title && (
+                    <div className='default-content'>
+                        <div className='default-sub-header'>
+                            <div className='container'>
+                                <h1>{content.title.rendered}</h1>
+                            </div>
+                        </div>
                         <div className='container'>
-                            <h1>{content.title.rendered}</h1>
+                            <div dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
                         </div>
                     </div>
-                    <div className='container'>
-                        <div dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
+                )}
+                {posts &&
+                posts.map((post, index) => {
+                    return (
+                    <div key={post.id} className="posts-app__post">
+                        <h2><a href={post.guid.rendered}>{post.title.rendered}</a></h2>
+                        <div
+                        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                        />
                     </div>
-
-                </div>
-            )}
-            {posts &&
-            posts.length &&
-            posts.map((post, index) => {
-                return (
-                <div key={post.id} className="posts-app__post">
-                    <h2><a href={post.guid.rendered}>{post.title.rendered}</a></h2>
-                    <div
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                    />
-                </div>
-                );
-            })}
-        </div>
-  );
+                    );
+                })}
+            </div>
+        );
     }else{
-
         useEffect(() => {
             Axios.get(
             wpScienceTheme.apiUrl + `/wp/v2/posts/?after=${dateString}T00:00:00&before=${dateStringBefore}T23:59:59`, {
@@ -171,13 +162,11 @@ return (
 
         return (
             <div className='wp-content-category'>
-
                 <div className='default-sub-header'>
                     <div className='container'>
 
                     </div>
                 </div>
-
                 <div className='container'>
                     <div className='row'>
                         <div className="posts-app__post-list">
@@ -206,8 +195,6 @@ return (
             </div>
         )
     }
-
-
 }
 
 export default ArchiveDate;

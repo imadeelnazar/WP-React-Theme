@@ -108,6 +108,24 @@ function wpscience_get_testimonial_media_func($data) {
 }
 
 
+// Search Page
+// add_action( 'rest_api_init', 'wpscience_get_search_slug');
+// function wpscience_get_search_slug(){
+//     register_rest_route( 'v2/search', '/(?P<s>[a-zA-Z]+)', array(
+//         'methods' => 'GET',
+//         'callback' => 'wpscience_get_search',
+//         'permission_callback' => '__return_true'
+//     ));
+// }
+
+// function wpscience_get_search($data) {
+//     $menuID = $data['id'];
+
+//     return $menuID;
+
+// }
+
+
 // Sidebar
 add_action( 'rest_api_init', 'wpscience_rest_sidebar');
 function wpscience_rest_sidebar(){
@@ -337,7 +355,7 @@ add_filter( 'get_search_form', 'modify_search_form_action' );
 
 function modify_search_query( $query ) {
     if ( $query->is_search() && ! empty( $_GET['s'] ) ) {
-        wp_redirect( home_url( '/search/?s=' . urlencode( get_query_var( 's' ) ) ) );
+        wp_redirect( home_url( '/search/?search=' . urlencode( get_query_var( 's' ) ) ) );
         exit();
     }
 }

@@ -215,7 +215,7 @@ ul.main-navigation li .sub-menu  ul li:hover ul{
     visibility: visible;
     overflow: visible;
     z-index: 999999999;
-} 
+}
 .menu,
 .widget_rss  ul,
 .widget_recent_entries ul,
@@ -315,7 +315,7 @@ ul.wp-block-archives-list.wp-block-archives li a,
 .widget_meta  ul li a:before,
 .widget_archive ul li a:before,
 ul.wp-block-archives-list.wp-block-archives li a:before,
-.wp-block-latest-comments li:before, 
+.wp-block-latest-comments li:before,
 .wp-block-latest-posts__list.wp-block-latest-posts li a:before{
     position: absolute;
     content: "";
@@ -370,5 +370,29 @@ img.size-large {
 .widget_search .widget form label input{
     background-color:#03a0c7;
     color:#fff;
-    border:none; 
+    border:none;
+}
+
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #767676;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

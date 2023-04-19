@@ -14,37 +14,38 @@ const DynamicMenu = () => {
     const fetchData = async () => {
       try {
 
-        if(wpScienceTheme.main_navi != null){
+
           const response = await fetch(wpScienceTheme.apiUrl + "/v1/navigation/menu/"+wpScienceTheme.main_navi);
 
           const data = await response.json();
 
           setMenu(data);
-        }
+
       } catch (error) {
         console.error(error);
       }
     };
   fetchData()
-  }, []);
+  }, [wpScienceTheme.main_navi]);
 
   // This effect only runs once when the component is first loaded.
   useEffect(() => {
     // Use the async/await pattern to handle the promise returned by the fetch call
     const fetchDataD = async () => {
       try {
-        if(wpScienceTheme.top_navi != null){
+
           const response = await fetch(wpScienceTheme.apiUrl + "/v1/navigation/menu/"+wpScienceTheme.top_navi);
           const data = await response.json();
+          console.log(data)
           // console.log(data)
           setMenuTop(data);
-        }
+
       } catch (error) {
         console.error(error);
       }
     };
   fetchDataD()
-  }, []);
+  }, [wpScienceTheme.top_navi]);
 
 const ImageSrcByName = ({fieldname}) => {
   const [fieldValue, setFieldValue] = useState('');

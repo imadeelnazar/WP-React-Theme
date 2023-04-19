@@ -17,6 +17,8 @@ const Posts = ({ match }) => {
         setPost(data[0]);
 
 
+
+
         // if(data != []){
         //   const pages = await fetch(wpScienceTheme.apiUrl + `/wp/v2/pages?slug=${params.slug}`);
         //   const pagesResponce = await pages.json();
