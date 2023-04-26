@@ -122,8 +122,8 @@ const ElementDeveloper = ({acfData}) => {
                             <h1>{content.title.rendered}</h1>
                         </div>
                     </div>
-                    <div className='container'>
-                        <div dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
+                    <div className='container-fluid'>
+                        <div className="row" dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
                     </div>
                     {console.log(content.id)}
                     <div className='comment-wrap'>
