@@ -125,7 +125,7 @@ const ElementDeveloper = ({acfData}) => {
                     <div className='container-fluid'>
                         <div className="row" dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
                     </div>
-                    {console.log(content.id)}
+                    {/* {console.log(content.id)} */}
                     <div className='comment-wrap'>
                         <CommentList postId={content.id}/>
                         <CommentForm postId={content.id}/>

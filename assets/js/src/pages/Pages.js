@@ -16,7 +16,7 @@ const Pages = () => {
         const subPageSlugs = params['*'].split('/'); // split by '/'
 
         const lastSubPageSlug = subPageSlugs[subPageSlugs.length - 2]; // get last element
-console.log(lastSubPageSlug)
+// console.log(lastSubPageSlug)
 
 
     async function fetchContent(slug){

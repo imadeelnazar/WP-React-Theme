@@ -41,24 +41,27 @@ const Pagination = ({ nrOfPages, currentpage, onSelectPage }) => {
         setPagination(paginationArray);
     }, [currentpage, nrOfPages]);
 
-    return (
-        <div className="posts-app__pagination">
+    if(pagination && pagination.length > 1){
+        return (
+            <div className="posts-app__pagination">
 
-            {pagination && pagination.length > 1 && pagination.map((n, i) => {
-                return n != "..." ? (
-                    <button
-                    key={i}
-                    onClick={() => {
-                    onSelectPage(n);
-                    }}>
-                        {n}
-                    </button>
-                ) : (
-                    <button key={i}>...</button>
-                );
-            })}
-        </div>
-    );
+                {pagination && pagination.length > 1 && pagination.map((n, i) => {
+                    return n != "..." ? (
+                        <button
+                        key={i}
+                        onClick={() => {
+                        onSelectPage(n);
+                        window.scrollTo(0, 0); // This line will scroll to the top of the page
+                        }}>
+                            {n}
+                        </button>
+                    ) : (
+                        <button key={i}>...</button>
+                    );
+                })}
+            </div>
+        );
+    }
 };
 
 export default Pagination;

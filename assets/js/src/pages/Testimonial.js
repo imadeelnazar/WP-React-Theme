@@ -10,7 +10,7 @@ const Posts = ({ match }) => {
   useEffect(() => {
     const fetchData = async () => {
         const response = await fetch(wpScienceTheme.apiUrl + `/wp/v2/testimonials?slug=${params.slug}`);
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
         setPost(data[0]);
     };

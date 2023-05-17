@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 const SubPages = ({ path, slug }) => {
 
   const params = useParams();
-console.log('dddd')
+// console.log('dddd')
 
   return (
      <div className='wp-main-react-wrapper'>

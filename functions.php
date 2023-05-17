@@ -332,7 +332,8 @@ function custom_theme_customize_register( $wp_customize ) {
     // Add an image upload field to the section
     $wp_customize->add_setting( 'ultimate_subheader_BG', array(
         'default' => '',
-        'transport' => 'websocket',
+        // 'transport' => 'websocket',
+        'transport' => 'postMessage',
         'sanitize_callback' => 'esc_url_raw',
     ) );
 

@@ -36,7 +36,7 @@ const DynamicMenu = () => {
 
           const response = await fetch(wpScienceTheme.apiUrl + "/v1/navigation/menu/"+wpScienceTheme.top_navi);
           const data = await response.json();
-          console.log(data)
+          // console.log(data)
           // console.log(data)
           setMenuTop(data);
 

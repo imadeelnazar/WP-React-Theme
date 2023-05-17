@@ -396,3 +396,147 @@ img.size-large {
     transform: rotate(360deg);
   }
 }
+
+.posts-app__post-list .posts-app__post{
+    margin-bottom:30px;
+}
+
+.posts-app__post-list .posts-app__post .posts-app__content{
+    background:#f7f7f7;
+    padding:15px;
+}
+
+/* Blog Grid */
+.posts-app__content {
+	float: left;
+	width: 100%;
+	background-color: #f7f7f7;
+	padding: 22px 20px 17px 20px;
+	border: none;
+}
+.blog-timeinfo {
+	float: left;
+	width: 100%;
+	border-top: 1px solid #e7e7e7;
+	padding: 20px 0px 0px 0px;
+	margin: 10px 0px 0px 0px;
+}
+.blogmore-btn:hover { color: #ffffff; }
+.blogmore-btn {
+	float: right;
+	padding: 4px 15px;
+	border: 1px solid;
+	border-radius: 3px;
+	text-transform: uppercase;
+}
+.blog-timeinfo time {
+	float: left;
+	color: #999999;
+	font-size: 13px;
+	padding: 6px 0px 0px 0px;
+}
+.blog-timeinfo i { margin-right: 7px; }
+.posts-app__post figure {
+	margin: 0px;
+	overflow: hidden;
+	border-bottom: 4px solid #dfdfdf;
+}
+.posts-app__post figcaption {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+}
+.posts-app__post figcaption span {
+	position: absolute;
+	left: 50%;
+	bottom: 0px;
+	color: #ffffff;
+	font-size: 30px;
+	padding: 14px 20px;
+	text-align: center;
+	font-weight: bold;
+	margin: 0px 0px 0px -40px;
+}
+.posts-app__post figcaption svg {
+	display: block;
+	font-size: 20px;
+}
+.posts-app__content {
+	float: left;
+	width: 100%;
+	border: 1px solid #dfdfdf;
+	border-top: none;
+	padding: 22px 20px 17px 20px;
+}
+.posts-app__content h3 {
+	font-weight: 500;
+	line-height: 1.3;
+	margin-bottom: 0px;
+	text-transform: uppercase;
+}
+.kode-blog-post {
+	float: left;
+	width: 100%;
+    padding-left:0px;
+    margin-bottom:0px;
+    margin-top:12px;
+}
+.kode-blog-post ul {
+	margin: 0px 0px 10px 0px;
+    display: inline-block;
+}
+.kode-blog-post li {
+	display: inline-block;
+	margin: 0px 10px 0px 0px;
+	text-align: center;
+	color: #999999;
+}
+.kode-blog-post > li{
+    padding-right:0px;
+    margin-right:0px;
+}
+.kode-blog-post li a {
+	color: #999999;
+	font-size: 14px;
+	font-weight: 600;
+}
+.kode-blog-post li i {
+	margin-right: 8px;
+	display: inline-block;
+	color: #999999;
+}
+.posts-app__content h3 a {
+    font-weight: 500;
+    text-decoration: none;
+    color:#777;
+    line-height: 1.3;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+.thbg-colorhover{
+    color: #ff9933;
+}
+.thbg-colorhover{
+    text-decoration: none;
+}
+.posts-app__post figure{
+    border-bottom-color: #ff9933;
+}
+.thbg-colorhover:hover,
+.posts-app__post figcaption span{
+    background-color: #ff9933;
+}
+.blogmore-btn{
+    border-color: #ff9933;
+}
+
+.archive-tags{
+    margin-top:30px;
+}
+.archive-tags .posts-app__post-list .posts-app__post {
+    margin-bottom: 30px;
+    float: left;
+    position: relative;
+}
