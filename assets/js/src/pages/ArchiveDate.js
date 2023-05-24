@@ -47,6 +47,7 @@ const ArchiveDate = () => {
         }
         dateStringBefore = `${nextYear}-0${nextMonth}-01`;
     }
+
     // When the page number changes call the api for posts.
     if (isNaN(month)) {
         const [content, setContent] = useState({});
@@ -147,8 +148,10 @@ const ArchiveDate = () => {
                 })}
             </div>
         );
+
     }else{
         useEffect(() => {
+
             Axios.get(
             wpScienceTheme.apiUrl + `/wp/v2/posts/?after=${dateString}T00:00:00&before=${dateStringBefore}T23:59:59`, {
                 params: { page: page }
@@ -161,7 +164,7 @@ const ArchiveDate = () => {
         }, [page, posts, setPosts]);
 
         return (
-            <div className='wp-content-category'>
+            <div className='wp-content-category archive-date-n'>
                 <div className='default-sub-header'>
                     <div className='container'>
 
@@ -170,18 +173,30 @@ const ArchiveDate = () => {
                 <div className='container'>
                     <div className='row'>
                         <div className="posts-app__post-list">
-                            {posts &&
-                            posts.length &&
-                            posts.map((post, index) => {
-                                return (
-                                <div key={post.id} className="posts-app__post">
-                                    <h2><a href={post.guid.rendered}>{post.title.rendered}</a></h2>
-                                    <div
-                                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                                    />
-                                </div>
-                                );
-                            })}
+                            {posts && posts.length > 0 ?
+                                posts.map((post, index) => {
+                                    const dateObject = new Date(post.date);
+                                    const day = dateObject.getDate();
+                                    const month = dateObject.getMonth() + 1;  // JavaScript months start at 0
+                                    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                    const monthName = months[month];
+                                    const year = dateObject.getFullYear();
+                                    return (
+                                        <div key={post.id} className="posts-app__post col-md-12 kode-blog-list kode-large-blog">
+                                            <div className='post-app__postfull'>
+                                                <strong className='post-app__strong'>{day} <span>{monthName}</span></strong>
+                                                <div className='kode-blog-info'>
+                                                    {post.title && (<h2><a href={post.guid.rendered} dangerouslySetInnerHTML={{ __html: post.title.rendered }} /></h2>)}
+                                                    {post.content && (<div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />)}
+                                                    <a href={post.guid.rendered} className="blog-more thbg-colorhover">Read More</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                                :
+                                <p>There are currently no posts. We're working to add more!</p>
+                            }
                         </div>
                         <Pagination
                             nrOfPages={nrofpages}

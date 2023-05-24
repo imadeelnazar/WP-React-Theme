@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React,{ useEffect, useState } from 'react';
 
 function pageAlgo(currentPage, pageCount) {
     let delta = 2,
@@ -48,15 +48,18 @@ const Pagination = ({ nrOfPages, currentpage, onSelectPage }) => {
                 {pagination && pagination.length > 1 && pagination.map((n, i) => {
                     return n != "..." ? (
                         <button
-                        key={i}
-                        onClick={() => {
-                        onSelectPage(n);
-                        window.scrollTo(0, 0); // This line will scroll to the top of the page
-                        }}>
+                            key={i}
+                            className={parseInt(currentpage, 10) === n ? 'selected' : ''}
+                            onClick={() => {
+                                onSelectPage(n);
+                                window.scrollTo(0, 0);
+                                window.history.pushState({}, '', `?page=${n}`) // This will update the URL
+                            }}
+                        >
                             {n}
                         </button>
                     ) : (
-                        <button key={i}>...</button>
+                        <button key={i} disabled>...</button>
                     );
                 })}
             </div>

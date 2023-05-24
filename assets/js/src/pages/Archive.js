@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom'
 import Axios from "axios";
 
 import Pagination from '../components/Sections/pagination';
-
-import WPContent from '../components/Sections/itemBuilder'
+import BlogPost from '../components/Blog/blogGrid'
+import BlogFull from '../components/Blog/blogFull';
 
 const ImageWithPromise = ({ data }) => {
   const [src, setSrc] = useState(null);
@@ -51,6 +51,38 @@ const About = () => {
         fetchData();
     }, [params.slug]);
 
+    async function fetchCategoryDetails(categoryId) {
+        try {
+            const response = await fetch(wpScienceTheme.apiUrl + `/wp/v2/categories/${categoryId}`);
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle error accordingly
+        }
+    }
+
+    async function fetchTagDetails(tagId) {
+        try {
+            const response = await fetch(wpScienceTheme.apiUrl + `/wp/v2/tags/${tagId}`);
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle error accordingly
+        }
+    }
+
+
+
     // async function PostApi (){
     //     if (category && category.id) {
     //         const response_dev = await fetch(wpScienceTheme.apiUrl + `/wp/v2/categories/${category.id}`);
@@ -71,20 +103,70 @@ const About = () => {
     useEffect(() => {
         // console.log(categoryID)
         if (!isNaN(categoryID)) {
+            const params = new URLSearchParams(window.location.search);
+            const page = params.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
             Axios.get(
             wpScienceTheme.apiUrl + `/wp/v2/posts?per_page=3&categories=${categoryID}`, {
                 params: { page: page }
-            }).then(response => {
-                // Store the number of posible pages.
-                setNumberofpage(response.headers["x-wp-totalpages"]);
-                // Store the posts from the response.
-                setPosts(response.data);
+            }).then((response) => {
+            // Store the number of possible pages.
+            setNumberofpage(response.headers["x-wp-totalpages"]);
+            // Store the posts from the response.
+            const fetchedPosts = response.data;
+
+            // Fetch category names and IDs for each post
+            const categoryPromises = fetchedPosts.map((post) => {
+                const categoryIds = post.categories || [];
+                return Promise.all([
+                    Promise.all(categoryIds.map((categoryId) => fetchCategoryDetails(categoryId))),
+                    Promise.all((post.tags || []).map((tagId) => fetchTagDetails(tagId))),
+                ]);
+            });
+
+            Promise.all(categoryPromises)
+                .then((categoryData) => {
+                // Append category and tag details to the posts
+                const updatedPosts = fetchedPosts.map((post, index) => {
+                    const [categories, tags] = categoryData[index];
+                    const categoryDetails = Array.isArray(categories)
+                    ? categories.map((category) => ({
+                            name: category.name,
+                            id: category.id,
+                            link: category.link
+                        }))
+                    : [];
+
+                    const tagDetails = Array.isArray(tags)
+                    ? tags.map((tag) => ({
+                            name: tag.name,
+                            id: tag.id,
+                            link: tag.link
+                        }))
+                    : [];
+
+                    return {
+                        ...post,
+                        categoryDetails,
+                        tagDetails,
+                    };
+                });
+                    setPosts(updatedPosts);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
         }
     }, [page, categoryID, setPosts]);
 
+    let paramss = new URLSearchParams(window.location.search);
+    let pages = paramss.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
+
     return (
-        <div className='wp-content-category'>
+        <div className='wp-content-category archive-list'>
             {cateData && (
             <div className='default-sub-header'>
                 <div className='container'>
@@ -96,24 +178,20 @@ const About = () => {
             <div className='container'>
                 <div className='row'>
                     <div className="posts-app__post-list">
-
                         {posts &&
                         posts.length &&
                         posts.map((post, index) => {
-
+                            const categories = post.categoryDetails || [];
+                            const tags = post.tagDetails || [];
+                            const author = post.author || '';
                             return (
-                            <div key={post.id} className="posts-app__post">
-                                <h2><a href={post.guid.rendered}>{post.title.rendered}</a></h2>
-                                <div
-                                dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                                />
-                            </div>
+                                <BlogFull key={index} post={post} categories={categories} tags={tags} />
                             );
                         })}
                     </div>
                     <Pagination
                         nrOfPages={nrofpages}
-                        currentpage={page}
+                        currentpage={pages}
                         onSelectPage={n => {
                         setPage(n);
                         }}

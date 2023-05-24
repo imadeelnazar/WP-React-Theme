@@ -83,18 +83,7 @@ canvas{
 	float:left;
 	width:100%;
 }
-ul {
-   margin:0px;
-   padding:0px;
-}
-li {
 
-    list-style: none;
-}
-ul ul {
-    margin:0px;
-	padding:0px;
-}
 ol {
     float: none;
     padding-left: 15px;
@@ -117,11 +106,6 @@ figure {
     clear: both;
     font-size: 0;
     line-height: 0;
-}
-.thumb img,
-figure img{
-	float:left;
-	width:100%;
 }
 img {
     max-width: 100%;

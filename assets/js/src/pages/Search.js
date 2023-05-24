@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Axios from "axios";
 
 import Pagination from '../components/Sections/pagination';
+import BlogPost from '../components/Blog/blogGrid'
 
 const ImageWithPostID = ({ inputdata }) => {
   const [tsrc, setTSrc] = useState(null);
@@ -36,12 +37,57 @@ const Search = () => {
         // When the page number changes call the api for posts.
         useEffect(() => {
             Axios.get(wpScienceTheme.apiUrl + `/wp/v2/search/?search=${params.slug}`, {params: { page: page }
-        }).then(response => {
-            // Store the number of posible pages.
+        }).then((response) => {
+            // Store the number of possible pages.
             setNumberofpage(response.headers["x-wp-totalpages"]);
             // Store the posts from the response.
-            setPosts(response.data);
-        });
+            const fetchedPosts = response.data;
+
+            // Fetch category names and IDs for each post
+            const categoryPromises = fetchedPosts.map((post) => {
+                const categoryIds = post.categories || [];
+                return Promise.all([
+                    Promise.all(categoryIds.map((categoryId) => fetchCategoryDetails(categoryId))),
+                    Promise.all((post.tags || []).map((tagId) => fetchTagDetails(tagId))),
+                ]);
+            });
+
+            Promise.all(categoryPromises)
+                .then((categoryData) => {
+                // Append category and tag details to the posts
+                const updatedPosts = fetchedPosts.map((post, index) => {
+                    const [categories, tags] = categoryData[index];
+                    const categoryDetails = Array.isArray(categories)
+                    ? categories.map((category) => ({
+                            name: category.name,
+                            id: category.id,
+                            link: category.link
+                        }))
+                    : [];
+
+                    const tagDetails = Array.isArray(tags)
+                    ? tags.map((tag) => ({
+                            name: tag.name,
+                            id: tag.id,
+                            link: tag.link
+                        }))
+                    : [];
+
+                    return {
+                        ...post,
+                        categoryDetails,
+                        tagDetails,
+                    };
+                });
+                    setPosts(updatedPosts);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         }, [page, setPosts]);
     }else{
 
@@ -57,12 +103,57 @@ const Search = () => {
                     page: page,
                     _embed: true
                 }
-                }).then(response => {
-                    // Store the number of posible pages.
-                    setNumberofpage(response.headers["x-wp-totalpages"]);
-                    // Store the posts from the response.
-                    setPosts(response.data);
+                }).then((response) => {
+            // Store the number of possible pages.
+            setNumberofpage(response.headers["x-wp-totalpages"]);
+            // Store the posts from the response.
+            const fetchedPosts = response.data;
+
+            // Fetch category names and IDs for each post
+            const categoryPromises = fetchedPosts.map((post) => {
+                const categoryIds = post.categories || [];
+                return Promise.all([
+                    Promise.all(categoryIds.map((categoryId) => fetchCategoryDetails(categoryId))),
+                    Promise.all((post.tags || []).map((tagId) => fetchTagDetails(tagId))),
+                ]);
+            });
+
+            Promise.all(categoryPromises)
+                .then((categoryData) => {
+                // Append category and tag details to the posts
+                const updatedPosts = fetchedPosts.map((post, index) => {
+                    const [categories, tags] = categoryData[index];
+                    const categoryDetails = Array.isArray(categories)
+                    ? categories.map((category) => ({
+                            name: category.name,
+                            id: category.id,
+                            link: category.link
+                        }))
+                    : [];
+
+                    const tagDetails = Array.isArray(tags)
+                    ? tags.map((tag) => ({
+                            name: tag.name,
+                            id: tag.id,
+                            link: tag.link
+                        }))
+                    : [];
+
+                    return {
+                        ...post,
+                        categoryDetails,
+                        tagDetails,
+                    };
                 });
+                    setPosts(updatedPosts);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
             }, [page, setPosts]);
 
         }else{
@@ -75,18 +166,63 @@ const Search = () => {
                     page: page,
                     _embed: true
                 }
-                }).then(response => {
-                    // Store the number of posible pages.
-                    setNumberofpage(response.headers["x-wp-totalpages"]);
-                    // Store the posts from the response.
-                    setPosts(response.data);
+                }).then((response) => {
+            // Store the number of possible pages.
+            setNumberofpage(response.headers["x-wp-totalpages"]);
+            // Store the posts from the response.
+            const fetchedPosts = response.data;
 
+            // Fetch category names and IDs for each post
+            const categoryPromises = fetchedPosts.map((post) => {
+                const categoryIds = post.categories || [];
+                return Promise.all([
+                    Promise.all(categoryIds.map((categoryId) => fetchCategoryDetails(categoryId))),
+                    Promise.all((post.tags || []).map((tagId) => fetchTagDetails(tagId))),
+                ]);
+            });
 
+            Promise.all(categoryPromises)
+                .then((categoryData) => {
+                // Append category and tag details to the posts
+                const updatedPosts = fetchedPosts.map((post, index) => {
+                    const [categories, tags] = categoryData[index];
+                    const categoryDetails = Array.isArray(categories)
+                    ? categories.map((category) => ({
+                            name: category.name,
+                            id: category.id,
+                            link: category.link
+                        }))
+                    : [];
+
+                    const tagDetails = Array.isArray(tags)
+                    ? tags.map((tag) => ({
+                            name: tag.name,
+                            id: tag.id,
+                            link: tag.link
+                        }))
+                    : [];
+
+                    return {
+                        ...post,
+                        categoryDetails,
+                        tagDetails,
+                    };
                 });
+                    setPosts(updatedPosts);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
             }, [page, setPosts]);
         }
     }
 
+    let paramss = new URLSearchParams(window.location.search);
+    let pages = paramss.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
 
     return (
         <div className='wp-content-category'>

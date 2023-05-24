@@ -89,6 +89,8 @@ const About = () => {
 
     // When the page number changes call the api for posts.
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const page = params.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
         Axios.get(wpScienceTheme.apiUrl + `/wp/v2/posts`, {params: { page: page }
     }).then(response => {
         // Store the number of posible pages.

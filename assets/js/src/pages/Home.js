@@ -6,24 +6,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faFeather } from "@fortawesome/free-solid-svg-icons";
 
 import Pagination from '../components/Sections/pagination';
-
-
-const ImageWithPostID = ({ inputdata }) => {
-  const [tsrc, setTSrc] = useState(null);
-
-  useEffect(() => {
-    fetch(wpScienceTheme.apiUrl + `/v3/fimage/id/${inputdata}`)
-        .then((res) => res.json())
-        .then((data) => {
-            // console.log(data)
-            setTSrc(data);
-            // console.log(src)
-            // console.log(data);
-        });
-  }, [inputdata]);
-  return tsrc ? <img src={tsrc[0]} alt="ddd"/> : 'hello';
-}
-
+import BlogPost from '../components/Blog/blogGrid'
+import BlogFull from '../components/Blog/blogFull';
 
 const PageTemplate =() =>{
     const [acfData, setAcfData] = useState({});
@@ -122,9 +106,13 @@ const Home = () => {
         }
     }
 
+
+
     if(wpScienceTheme.show_on_front == 'posts'){
        // When the page number changes, call the API for posts.
         useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const page = params.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
         Axios.get(wpScienceTheme.apiUrl + `/wp/v2/posts`, { params: { page: page } })
             .then((response) => {
             // Store the number of possible pages.
@@ -180,22 +168,8 @@ const Home = () => {
         }, [page]);
     }
 
-    const ShowMetaData = ({ datas }) => {
-        if(datas && datas.length > 0){
-            return (
-                <ul className="meta-wrap">
-                {datas.map((data, index) => (
-                    <li className="meta-item" key={data.id}>
-                        <a href={data.link}>{data.name}{index < datas.length - 1 && ', '}</a>
-                    </li>
-                ))}
-                </ul>
-            );
-        } else {
-            return null;
-        }
-    };
-
+    let paramss = new URLSearchParams(window.location.search);
+    let pages = paramss.get('page') || 1; // If there's no page parameter in the URL, it defaults to 1
 
     return (
     <div className='wp-content'>
@@ -212,7 +186,7 @@ const Home = () => {
             </div>
 
             <div className='container'>
-                <div className='posts-app__post-list'>
+                <div className='posts-app__post-list kode-blog-list kode-large-blog'>
                     <div className="row">
                         {posts &&
                         posts.length &&
@@ -221,40 +195,19 @@ const Home = () => {
                             const tags = post.tagDetails || [];
                             const author = post.author || '';
                             return (
-                            <div key={post.id} className="posts-app__post col-md-12">
-                                {post.featured_media && post.featured_media ? <figure><a href={post.guid.rendered}><ImageWithPostID inputdata={post.id} /><figcaption><span><FontAwesomeIcon icon={faFeather} /></span></figcaption></a></figure> : ''}
-                                <div className='posts-app__content'>
-                                    {post.title && (<h3 ><a href={post.guid.rendered} dangerouslySetInnerHTML={{ __html: post.title.rendered }} /></h3>)}
-                                    <ul className="kode-blog-post">
-                                        {categories && categories ? (
-                                            <li>
-                                                <FontAwesomeIcon icon={faBars} /> Categories : <ShowMetaData datas={categories} />
-                                            </li>
-                                        ) : ''}
-                                        {tags && tags.length > 0 ? (
-                                            <li>
-                                                <FontAwesomeIcon icon={faBars} /> Tags : <ShowMetaData datas={tags} />
-                                            </li>
-                                        ) : ''}
-                                    </ul>
-                                    {post.content && (<div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />)}
-                                    <div className="blog-timeinfo">
-                                        <span><FontAwesomeIcon icon={faFeather} /> 23th May, 2015</span>
-                                        <a href={post.guid.rendered} className="blogmore-btn thcolor th-bordercolor thbg-colorhover">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <BlogFull key={index} post={post} categories={categories} tags={tags} />
                             );
                         })}
                     </div>
-                    {nrofpages === 1 ?
+                    {
+                    nrofpages === 1 ?
                     (' ')
                     :
                     <Pagination
                         nrOfPages={nrofpages}
-                        currentpage={page}
+                        currentpage={pages}
                         onSelectPage={n => {
-                        setPage(n);
+                            setPage(n);
                         }}
                     />
                     }
