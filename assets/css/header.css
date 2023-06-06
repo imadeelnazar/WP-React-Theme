@@ -659,3 +659,13 @@ img.size-large {
 	padding: 6px 0px 0px 0px;
 }
 .blog-timeinfo time i { margin-right: 7px; }
+.comment-wrap .form-handle-submit button[type="submit"]{
+    padding:8px 15px;
+    margin:10px 0px 25px 0px;
+}
+.comment-wrap .form-handle-submit > div{
+    margin-bottom:15px;
+}
+.default-content-wrap {
+    padding: 50px 0px;
+}

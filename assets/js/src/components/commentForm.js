@@ -33,13 +33,19 @@ const CommentForm = ({ postId }) => {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="name">Name</label>
-      <input type="text" id="name" name="name" {...register("name", { required: true })} />
-      <label htmlFor="email">Email</label>
-      <input type="email" id="email" name="email" {...register("email", { required: true })} />
-      <label htmlFor="comment">Comment</label>
-      <textarea id="comment" name="comment" {...register("comment", { required: true })} />
+    <form className="form-handle-submit" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" name="name" {...register("name", { required: true })} />
+      </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" name="email" {...register("email", { required: true })} />
+      </div>
+      <div>
+        <label htmlFor="comment">Comment</label>
+        <textarea id="comment" name="comment" {...register("comment", { required: true })} />
+      </div>
       <button type="submit">Submit</button>
     </form>
   );

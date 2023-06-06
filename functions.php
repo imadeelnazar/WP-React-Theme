@@ -165,8 +165,6 @@ function get_customizer_field_value( $request ) {
   $slug = $request->get_param( 'slug' );
   $value = get_theme_mod( $slug, '' );
   return is_string( $value ) ? $value : '';
-
-//   return rest_ensure_response( $value );
 }
 
 // Individual menus
@@ -367,6 +365,8 @@ add_filter( 'pre_get_posts', 'modify_search_query' );
 add_action( 'after_setup_theme', 'wpscience_theme_setup' );
 if( !function_exists('wpscience_theme_setup') ){
     function wpscience_theme_setup(){
+
+        add_theme_support('align-wide');
 
         register_nav_menus( array(
             'main_menu'=> esc_html__( 'Main Navigation', 'islamic-center' ),

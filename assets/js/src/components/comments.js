@@ -14,7 +14,7 @@ const CommentList = ({ postId }) => {
 
   return (
     <div>
-      <h2>Comments:</h2>
+      <h4>Comment Form</h4>
       {comments.map(comment => (
         <div key={comment.id}>
           <img src={comment.author_avatar_urls['24']} alt={comment.author_name} />

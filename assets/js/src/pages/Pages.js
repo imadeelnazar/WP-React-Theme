@@ -59,18 +59,18 @@ const Pages = () => {
   return (
      <div className='wp-main-react-wrapper'>
             {content && content.title && (
-                <div className='default-content'>
-                    <div className='default-sub-header'>
-                        <div className='container'>
+                <div className='default-content-wrap'>
+                    <div className='container'>
+                        <div className='default-sub-header'>
                             <h1>{content.title.rendered}</h1>
                         </div>
-                    </div>
-                    <div className='container-fluid'>
-                        <div className="row" dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
-                    </div>
-                    <div className='comment-wrap'>
-                        <CommentList postId={content.id}/>
-                        <CommentForm postId={content.id}/>
+                        <div className='default-content'>
+                            <div className="row" dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
+                        </div>
+                        <div className='comment-wrap'>
+                            <CommentList postId={content.id}/>
+                            <CommentForm postId={content.id}/>
+                        </div>
                     </div>
                 </div>
             )}
