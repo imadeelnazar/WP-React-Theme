@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-
 import PageLoader from './pageLoader';
 import '../../css/header.css'
 import '../../css/typography.css'
+
 import Navigation from './navigation';
 import Footer from './components/Footer';
 import NotFound from '../src/pages/NotFound';
